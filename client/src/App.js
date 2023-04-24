@@ -1,83 +1,43 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import './App.css';
+import { Routes, Route } from 'react-router-dom'
+// import Layout from './components/Layout'
+// import Layout1 from './components/Layout1'
+// import Layout2 from './components/Layout2'
+import Home from './pages/home'
+import Profile from './pages/profile'
+import Recipes from './pages/recipes'
+import MealPlans from './pages/myMealPlanCart'
+import AboutUs from './pages/aboutus'
+import Login from './pages/login'
 
-import Home from './pages/Home';
-import Detail from './pages/Detail';
-import NoMatch from './pages/NoMatch';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Nav from './components/Nav';
-import { StoreProvider } from './utils/GlobalState';
-import Success from './pages/Success';
-import OrderHistory from './pages/OrderHistory';
-
-const httpLink = createHttpLink({
-  uri: '/graphql',
-});
-
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('id_token');
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
-});
-
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
+//Layout = Nav on Bottom
+//Layout1 = sideNav
+//Layout2 = Nav on top under Hero
 
 function App() {
   return (
-    <ApolloProvider client={client}>
-      <Router>
-        <div>
-          <StoreProvider>
-            <Nav />
-            <Routes>
-              <Route 
-                path="/" 
-                element={<Home />} 
-              />
-              <Route 
-                path="/login" 
-                element={<Login />} 
-              />
-              <Route 
-                path="/signup" 
-                element={<Signup />} 
-              />
-              <Route 
-                path="/success" 
-                element={<Success />} 
-              />
-              <Route 
-                path="/orderHistory" 
-                element={<OrderHistory />} 
-              />
-              <Route 
-                path="/products/:id" 
-                element={<Detail />} 
-              />
-              <Route 
-                path="*" 
-                element={<NoMatch />} 
-              />
-            </Routes>
-          </StoreProvider>
-        </div>
-      </Router>
-    </ApolloProvider>
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+        </Route>
+        <Route path="/login" element={<Layout />}>
+          <Route index element={<Login />} />
+        </Route>
+        <Route path="/profile" element={<Layout1 />}>
+          <Route index element={<Profile />} />
+        </Route>
+        <Route path="/recipes" element={<Layout1 />}>
+          <Route index element={<Recipes />} />
+        </Route>
+        <Route path="/myMealPlanCart" element={<Layout1 />}>
+          <Route index element={<MealPlans />} />
+        </Route>
+        <Route path="/aboutUs" element={<Layout2 />}>
+          <Route index element={<AboutUs />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 
