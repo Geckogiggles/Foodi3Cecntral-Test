@@ -1,14 +1,14 @@
 import React from "react";
-import HeroImage from "./components/hero";
-import LoginForm from "./components/Login";
-import BottomNavbar from "./components/Navbars/botNav";
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import "./App.css"
+import RecipoeModal from "./components/Dal"
+
+
 const LoginPage = () => {
   return (
     <div>
-      <HeroImage />
-      <LoginForm />
-      <BottomNavbar />
+
+<RecipoeModal/>
     </div>
   );
 };
